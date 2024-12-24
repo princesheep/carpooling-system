@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: carpooling-system
+  datasource:
+    url: jdbc:mysql://localhost:3306/carpooling?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
+
+mybatis-plus:
+  configuration:
+    # MyBatis 配置
+    map-underscore-to-camel-case: true
+  global-config:
+    # 全局配置
+    db-config:
+      # 数据库配置
+      id-type: auto
+logging:
+  level:
+    com.nwpu: debug
+nwpu:
+  key:
+    publicKeyPath: D:\java_project\carpooling-system\carpooling-system\src\resources\rsa_key\rsa_key.pub
+    privateKeyPath: D:\java_project\carpooling-system\carpooling-system\src\resources\rsa_key\rsa_key
