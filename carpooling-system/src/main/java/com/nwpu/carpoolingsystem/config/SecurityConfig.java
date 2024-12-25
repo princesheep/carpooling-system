@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.rememberMe().rememberMeParameter("rememberMe").tokenValiditySeconds(3600*24).rememberMeServices(rememberMeServices());
 
         //允许匿名访问的方法
-        http.authorizeRequests().antMatchers("/login").anonymous()
+        http.authorizeRequests().antMatchers("/login", "/register").anonymous()
         //其他需要鉴权
         .anyRequest().authenticated();
 
