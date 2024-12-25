@@ -27,4 +27,24 @@ public interface CarpoolMapper {
     List<Carpool> getCurrentUserCarpoolByStateAndTime(Carpool carpool);
 
     List<Carpool> getCurrentUserCarpoolByTime(Carpool carpool);
+
+    int getStateById(Carpool carpool);
+
+    Long getOwnerIdById(Carpool carpool);
+
+    void updateCarpoolPoint(Carpool carpool);
+
+    void updateCarpoolSeat(Carpool carpool);
+
+    void updateCarpoolTime(Carpool carpool);
+
+    void compeleteCarpool(Carpool carpool);
+
+    List<Carpool> getCarpool();
+
+    List<Carpool> getCarpoolByTime(Carpool carpool);
+
+    List<Carpool> getCarpoolByOwner(Carpool carpool);
+
+    List<Carpool> getCarpoolByOwnerAndTime(Carpool carpool);
 }

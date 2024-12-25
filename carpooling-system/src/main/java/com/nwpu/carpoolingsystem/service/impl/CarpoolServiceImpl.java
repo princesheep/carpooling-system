@@ -63,7 +63,7 @@ public class CarpoolServiceImpl implements CarpoolService {
         if(carpools != null){
             for (Carpool newCarpool : carpools) {
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("ownerId", newCarpool.getOwnerId());
+                map.put("ownerName", userMapper.findUserNameById(newCarpool.getOwnerId()));
                 map.put("startPoint", newCarpool.getStartPoint());
                 map.put("endPoint", newCarpool.getEndPoint());
                 map.put("availableSeats", newCarpool.getAvailableSeats());
@@ -102,7 +102,8 @@ public class CarpoolServiceImpl implements CarpoolService {
         if(carpools != null){
             for (Carpool newCarpool : carpools) {
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("ownerId", newCarpool.getOwnerId());
+                map.put("Id", newCarpool.getId());
+                map.put("ownerName", userMapper.findUserNameById(newCarpool.getOwnerId()));
                 map.put("startPoint", newCarpool.getStartPoint());
                 map.put("endPoint", newCarpool.getEndPoint());
                 map.put("availableSeats", newCarpool.getAvailableSeats());
@@ -113,5 +114,138 @@ public class CarpoolServiceImpl implements CarpoolService {
             }
         }
         return new Result(200, "查询成功", data);
+    }
+
+    @Override
+    public Result updateCarpoolPoint(Carpool carpool) {
+        //获取当前登陆用户
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserAuthVO currentUser = (UserAuthVO) authentication.getPrincipal();
+        Long userId = userMapper.findIdByUserName(currentUser.getUsername());
+
+        if(!userId.equals(carpoolMapper.getOwnerIdById(carpool))){
+            return new Result(500, "没有修改此订单的权限");
+        }
+        if(carpoolMapper.getStateById(carpool) == 0){
+            return new Result(500, "订单已过期");
+        }
+        carpoolMapper.updateCarpoolPoint(carpool);
+        return new Result(200, "更新成功");
+    }
+
+    @Override
+    public Result updateCarpoolSeat(Carpool carpool) {
+        //获取当前登陆用户
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserAuthVO currentUser = (UserAuthVO) authentication.getPrincipal();
+        Long userId = userMapper.findIdByUserName(currentUser.getUsername());
+
+        if(!userId.equals(carpoolMapper.getOwnerIdById(carpool))){
+            return new Result(500, "没有修改此订单的权限");
+        }
+        if(carpoolMapper.getStateById(carpool) == 0){
+            return new Result(500, "订单已过期");
+        }
+        carpoolMapper.updateCarpoolSeat(carpool);
+        return new Result(200, "更新成功");
+    }
+
+    @Override
+    public Result comleleteCarpool(Carpool carpool) {
+        //获取当前登陆用户
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserAuthVO currentUser = (UserAuthVO) authentication.getPrincipal();
+        Long userId = userMapper.findIdByUserName(currentUser.getUsername());
+
+        if(!userId.equals(carpoolMapper.getOwnerIdById(carpool))){
+            return new Result(500, "没有修改此订单的权限");
+        }
+        if(carpoolMapper.getStateById(carpool) == 0){
+            return new Result(500, "订单已过期");
+        }
+
+        carpoolMapper.compeleteCarpool(carpool);
+        return new Result(200, "操作成功");
+    }
+
+    @Override
+    public Result getCarpool() {
+        List<Carpool> carpools = carpoolMapper.getCarpool();
+        List<HashMap<String, Object>> data = new ArrayList<>();
+        if(carpools != null){
+            for (Carpool newCarpool : carpools) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("Id", newCarpool.getId());
+                map.put("ownerName", userMapper.findUserNameById(newCarpool.getOwnerId()));
+                map.put("startPoint", newCarpool.getStartPoint());
+                map.put("endPoint", newCarpool.getEndPoint());
+                map.put("availableSeats", newCarpool.getAvailableSeats());
+                map.put("totalSeats", newCarpool.getTotalSeats());
+                map.put("route", newCarpool.getRoute());
+                map.put("plateNumber", newCarpool.getPlateNumber());
+                data.add(map);
+            }
+        }
+        return new Result(200, "查询成功", data);
+    }
+
+    @Override
+    public Result getCarpoolByParam(Carpool carpool) {
+        List<Carpool> carpools;
+        if(carpool.getUseOwner()){
+
+            String username = carpool.getUsername();
+            StringBuilder newname = new StringBuilder("%");
+            for (int i = 0; i < username.length(); i++) {
+                newname.append(username.charAt(i)).append("%");
+            }
+            carpool.setUsername(newname.toString());
+
+            if (carpool.getUseTime()) {
+                carpools = carpoolMapper.getCarpoolByOwnerAndTime(carpool);
+            }else {
+                carpools = carpoolMapper.getCarpoolByOwner(carpool);
+            }
+        }else {
+            if (carpool.getUseTime()) {
+                carpools = carpoolMapper.getCarpoolByTime(carpool);
+            }else {
+                carpools = carpoolMapper.getCarpool();
+            }
+        }
+
+        List<HashMap<String, Object>> data = new ArrayList<>();
+        if(carpools != null){
+            for (Carpool newCarpool : carpools) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("Id", newCarpool.getId());
+                map.put("ownerName", userMapper.findUserNameById(newCarpool.getOwnerId()));
+                map.put("startPoint", newCarpool.getStartPoint());
+                map.put("endPoint", newCarpool.getEndPoint());
+                map.put("availableSeats", newCarpool.getAvailableSeats());
+                map.put("totalSeats", newCarpool.getTotalSeats());
+                map.put("route", newCarpool.getRoute());
+                map.put("plateNumber", newCarpool.getPlateNumber());
+                data.add(map);
+            }
+        }
+        return new Result(200, "查询成功", data);
+    }
+
+    @Override
+    public Result updateCarpoolTime(Carpool carpool) {
+        //获取当前登陆用户
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserAuthVO currentUser = (UserAuthVO) authentication.getPrincipal();
+        Long userId = userMapper.findIdByUserName(currentUser.getUsername());
+
+        if(!userId.equals(carpoolMapper.getOwnerIdById(carpool))){
+            return new Result(500, "没有修改此订单的权限");
+        }
+        if(carpoolMapper.getStateById(carpool) == 0){
+            return new Result(500, "订单已过期");
+        }
+        carpoolMapper.updateCarpoolTime(carpool);
+        return new Result(200, "更新成功");
     }
 }

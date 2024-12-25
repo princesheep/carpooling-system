@@ -20,6 +20,18 @@ public interface CarpoolService {
     Result getCurrentUserCarpool();
 
     Result getCurrentUserCarpoolByParam(Carpool carpool);
+
+    Result updateCarpoolPoint(Carpool carpool);
+
+    Result updateCarpoolTime(Carpool carpool);
+
+    Result updateCarpoolSeat(Carpool carpool);
+
+    Result comleleteCarpool(Carpool carpool);
+
+    Result getCarpool();
+
+    Result getCarpoolByParam(Carpool carpool);
 //    Carpool createCarpool(Long ownerId, Carpool carpool);
 //
 //    List<Carpool> getCarpoolsByOwner(Long ownerId);

@@ -11,6 +11,31 @@
         SELECT * FROM carpool WHERE owner_id=#{ownerId}
     </select>
 
+    <select id="getCarpool" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
+        SELECT * FROM carpool WHERE state=1
+    </select>
+
+    <select id="getCarpoolByTime" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
+        SELECT * FROM carpool
+        WHERE departure_time&lt;=#{endTime}
+        AND departure_time&gt;=#{startTime}
+        AND state=1
+    </select>
+
+    <select id="getCarpoolByOwner" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
+        SELECT * FROM carpool
+        WHERE carpool.owner_id IN (SELECT user.id FROM user WHERE user.username LIKE #{username})
+          AND state=1
+    </select>
+
+    <select id="getCarpoolByOwnerAndTime" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
+        SELECT * FROM carpool
+        WHERE carpool.departure_time&lt;=#{endTime}
+          AND carpool.departure_time&gt;=#{startTime}
+          AND carpool.owner_id IN (SELECT user.id FROM user WHERE user.username LIKE #{username})
+          AND state=1
+    </select>
+
     <select id="getCurrentUserCarpoolByState" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
         SELECT * FROM carpool
         WHERE owner_id=#{ownerId}
@@ -29,4 +54,38 @@
           AND departure_time&lt;=#{departureTime}
           AND state=#{state}
     </select>
+
+    <select id="getStateById" resultType="int">
+        SELECT state FROM carpool
+        WHERE id=#{id}
+    </select>
+
+    <select id="getOwnerIdById" resultType="Long">
+        SELECT owner_id FROM carpool
+        WHERE id=#{id}
+    </select>
+
+    <update id="updateCarpoolPoint">
+        UPDATE carpool
+        SET start_point=#{startPoint}, end_point=#{endPoint}, update_time=NOW()
+        WHERE id=#{id}
+    </update>
+
+    <update id="updateCarpoolSeat">
+        UPDATE carpool
+        SET available_seats=#{availableSeats}, update_time=NOW()
+        WHERE id=#{id}
+    </update>
+
+    <update id="updateCarpoolTime">
+        UPDATE carpool
+        SET departure_time=#{departureTime}, update_time=NOW()
+        WHERE id=#{id}
+    </update>
+
+    <update id="compeleteCarpool">
+        UPDATE carpool
+        SET state=0
+        WHERE id=#{id}
+    </update>
 </mapper>

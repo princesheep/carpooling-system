@@ -6,6 +6,10 @@
         SELECT * FROM user WHERE username = #{username}
     </select>
 
+    <select id="findUserNameById" resultType="String">
+        SELECT username FROM user WHERE id=#{id}
+    </select>
+
     <!-- 插入用户 -->
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user (username, password, email, phone, create_time, update_time)

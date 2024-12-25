@@ -21,13 +21,9 @@ import java.util.Optional;
  */
 @Mapper
 public interface UserMapper {
-    @Select("SELECT * FROM user WHERE username = #{username}")
+
     User findByUsername(String username);
 
-    // 插入用户
-    @Insert("INSERT INTO user (username, password, email, phone, create_time, update_time) " +
-            "VALUES (#{username}, #{password}, #{email}, #{phone}, NOW(), NOW())")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertUser(User user);
 
     List<String> findRoleByUserId(Long id);
@@ -36,4 +32,5 @@ public interface UserMapper {
 
     Long findIdByUserName(String username);
 
+    String findUserNameById(Long id);
 }
