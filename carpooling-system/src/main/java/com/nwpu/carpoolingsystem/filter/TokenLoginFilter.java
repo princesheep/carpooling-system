@@ -104,7 +104,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         user.setAuthorities((List<SimpleGrantedAuthority>) authResult.getAuthorities());
 
         //使用jwt创建一个token，私钥加密
-        String token = JwtUtil.generateTokenExpireInMinutes(user,prop.getPrivateKey(),15);
+        String token = JwtUtil.generateTokenExpireInMinutes(user,prop.getPrivateKey(),500);
 
         //返回token
         response.addHeader("Authorization","Bearer"+token);

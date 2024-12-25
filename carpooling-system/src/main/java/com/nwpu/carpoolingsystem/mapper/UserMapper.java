@@ -1,5 +1,6 @@
 package com.nwpu.carpoolingsystem.mapper;
 
+import com.nwpu.carpoolingsystem.entity.Carpool;
 import com.nwpu.carpoolingsystem.entity.User;
 import com.nwpu.carpoolingsystem.entity.UserRole;
 import org.apache.ibatis.annotations.Insert;
@@ -34,4 +35,5 @@ public interface UserMapper {
     void insertUserRole(UserRole userRole);
 
     Long findIdByUserName(String username);
+
 }

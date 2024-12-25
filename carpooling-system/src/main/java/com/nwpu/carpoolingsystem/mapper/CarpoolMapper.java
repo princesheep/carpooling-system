@@ -4,6 +4,7 @@ import com.nwpu.carpoolingsystem.entity.Carpool;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,4 +18,13 @@ import java.util.List;
 @Mapper
 public interface CarpoolMapper {
 
+    int insertCarpool(Carpool carpool);
+
+    List<Carpool> getCurrentUserCarpool(Carpool carpool);
+
+    List<Carpool> getCurrentUserCarpoolByState(Carpool carpool);
+
+    List<Carpool> getCurrentUserCarpoolByStateAndTime(Carpool carpool);
+
+    List<Carpool> getCurrentUserCarpoolByTime(Carpool carpool);
 }

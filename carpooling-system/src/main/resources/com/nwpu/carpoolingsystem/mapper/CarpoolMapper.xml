@@ -2,5 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nwpu.carpoolingsystem.mapper.CarpoolMapper">
 
+    <insert id="insertCarpool" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO carpool (owner_id, start_point, end_point, departure_time, available_seats, route, plate_number, total_seats, create_time, update_time, state)
+        VALUES (#{ownerId}, #{startPoint}, #{endPoint}, #{departureTime}, #{availableSeats}, #{route}, #{plateNumber}, #{totalSeats}, NOW(), NOW(), #{state})
+    </insert>
 
+    <select id="getCurrentUserCarpool" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
+        SELECT * FROM carpool WHERE owner_id=#{ownerId}
+    </select>
+
+    <select id="getCurrentUserCarpoolByState" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
+        SELECT * FROM carpool
+        WHERE owner_id=#{ownerId}
+          AND state=#{state}
+    </select>
+
+    <select id="getCurrentUserCarpoolByTime" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
+        SELECT * FROM carpool
+        WHERE owner_id=#{ownerId}
+          AND departure_time&lt;=#{departureTime}
+    </select>
+
+    <select id="getCurrentUserCarpoolByStateAndTime" resultType="com.nwpu.carpoolingsystem.entity.Carpool">
+        SELECT * FROM carpool
+        WHERE owner_id=#{ownerId}
+          AND departure_time&lt;=#{departureTime}
+          AND state=#{state}
+    </select>
 </mapper>

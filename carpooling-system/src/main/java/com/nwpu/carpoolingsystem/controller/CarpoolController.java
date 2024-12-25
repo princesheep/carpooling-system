@@ -22,24 +22,29 @@ public class CarpoolController {
     @Autowired
     private CarpoolService carpoolService;
 
-    // 创建拼车信息
-//    @PostMapping("/create")
-//    public Result<Carpool> createCarpool(@RequestParam Long ownerId, @RequestBody Carpool carpool) {
-//        Carpool newCarpool = carpoolService.createCarpool(ownerId, carpool);
-//        return Result.success(newCarpool);
-//    }
-//
-//    // 根据车主ID获取拼车信息
-//    @GetMapping("/owner/{ownerId}")
-//    public Result<List<Carpool>> getCarpoolsByOwner(@PathVariable Long ownerId) {
-//        List<Carpool> carpools = carpoolService.getCarpoolsByOwner(ownerId);
-//        return Result.success(carpools);
-//    }
-//
-//    // 更新拼车信息
-//    @PutMapping("/{carpoolId}")
-//    public Result<Carpool> updateCarpool(@PathVariable Long carpoolId, @RequestBody Carpool carpool) {
-//        Carpool updatedCarpool = carpoolService.updateCarpool(carpoolId, carpool);
-//        return Result.success(updatedCarpool);
-//    }
+
+
+    /**
+     * 车主创建拼车信息
+     * @param carpool
+     * @return
+     */
+    @PostMapping("/create")
+    public Result createCarpool(@RequestBody Carpool carpool) {
+        return carpoolService.createCarpool(carpool);
+    }
+
+    /**
+     * 查看当前车主的所有拼车信息
+     * @return
+     */
+    @GetMapping("/currentUserCarpool")
+    public Result getCurrentUserCarpool() {
+        return carpoolService.getCurrentUserCarpool();
+    }
+
+    @PostMapping("/currentUserCarpoolByParam")
+    public Result getCurrentUserCarpoolByParam(@RequestBody Carpool carpool) {
+        return carpoolService.getCurrentUserCarpoolByParam(carpool);
+    }
 }
